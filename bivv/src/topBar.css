@@ -7,3 +7,37 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 }
+
+.leftTopBar{
+    position:relative;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+    font-size:15px;
+    
+    text-align: left;
+    
+}
+
+.rightTopBar{
+    position:relative;
+    float: right;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+}
+
+.dateTopBar{
+    float: left;
+    text-align: right;
+    font-size:10px;
+    width: 50%;
+}
+
+.hourTopBar{
+    float: right;
+    font-size:15px;
+    width: 50%;
+    font-weight: bold;
+}

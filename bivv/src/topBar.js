@@ -27,7 +27,18 @@ class TopBar extends  React.Component {
     render(){
         return(
           <div className="topBar">
-            topBar
+            <div className='leftTopBar'>
+              {this.props.arret}
+            </div>
+            <div className='rightTopBar'>
+              <div className='dateTopBar'>
+                {this.props.date}
+              </div>
+             <div className='hourTopBar'>
+               {this.props.hour}
+             </div>
+            </div>
+            
           </div>      
                       
                   
