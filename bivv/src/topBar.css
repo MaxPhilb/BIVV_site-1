@@ -1,0 +1,9 @@
+.topBar
+{
+    position: relative;
+    top: 0;
+    background-color:silver;
+    height: 30px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
