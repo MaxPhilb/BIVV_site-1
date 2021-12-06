@@ -2,7 +2,7 @@
 {
     position: relative;
     top: 0;
-    background-color:silver;
+    background-color:#F6F6F6;
     height: 30px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -15,7 +15,7 @@
     padding: 0;
     width: 50%;
     font-size:15px;
-    
+    font-weight: bold;
     text-align: left;
     
 }
@@ -37,7 +37,13 @@
 
 .hourTopBar{
     float: right;
-    font-size:15px;
     width: 50%;
+ 
+}
+
+.hourTopBar p{
+    font-size:15px;
     font-weight: bold;
+    text-align: right;
+    padding-right: 10px;
 }
