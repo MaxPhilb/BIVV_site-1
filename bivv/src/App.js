@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import TopBar from './topBar'
 import React from 'react';
+import NextBus from './nextBus';
 
 class  App extends React.Component {
 
@@ -49,6 +50,7 @@ class  App extends React.Component {
     return (
       <div className="App">
           <TopBar arret="GARE" date={this.state.date} hour={this.state.hour} />
+          <NextBus />
       </div>
     );
   }
