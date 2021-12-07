@@ -1,0 +1,49 @@
+.appuiBTN{
+    width:99%;
+    margin: auto;
+    position: absolute;
+    bottom: 0;
+   
+}
+
+.ABTNTitle{
+    position: relative;
+    float: left;
+    background-color:#F6F6F6;
+    height: 75px;
+    width:550px;
+    float: left;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+    
+}
+.ABTNLogo{
+    float:left;
+    padding-top: 5px;;
+    padding-left: 10px;
+
+}
+
+.ABTNText{
+    float: left;
+    width: 80%;
+    padding-top: 10px;
+    font-size: 35px;
+}
+
+.ABTNDes{
+    background-color:#F6F6F6;
+    height: 60px;
+    width: 100%;
+    position: relative;
+    float: left;
+    border-top-right-radius: 25px;
+    
+    
+}
+
+.ABTNDesTop{
+    width:80%;
+    margin: auto;
+    text-align: center;
+}

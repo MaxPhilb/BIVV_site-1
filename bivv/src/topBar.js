@@ -35,7 +35,7 @@ class TopBar extends  React.Component {
                 {this.props.date}
               </div>
              <div className='hourTopBar'>
-               <p>{this.props.hour}</p>
+               {this.props.hour}
              </div>
             </div>
             

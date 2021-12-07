@@ -3,6 +3,8 @@ import './App.css';
 import TopBar from './topBar'
 import React from 'react';
 import NextBus from './nextBus';
+import InfoWidget from './info';
+import AppuiBtn from './appuiBtn';
 
 class  App extends React.Component {
 
@@ -26,8 +28,8 @@ class  App extends React.Component {
     let mois=tab_mois[ladate.getMonth()];
     //let dateJ="";
     let dateJ=jour+" "+ladate.getDate()+" "+mois+" "+ladate.getFullYear();
-    let h=ladate.getHours()>10 ? ladate.getHours() : "0"+ladate.getHours();
-    let m=ladate.getMinutes()>10 ? ladate.getMinutes() : "0"+ladate.getMinutes();
+    let h=ladate.getHours()>=10 ? ladate.getHours() : "0"+ladate.getHours();
+    let m=ladate.getMinutes()>=10 ? ladate.getMinutes() : "0"+ladate.getMinutes();
     //let heureJ=ladate.getHours()+':'+;
     let heureJ=h+":"+m;
     this.setState({
@@ -49,8 +51,12 @@ class  App extends React.Component {
   render(){
     return (
       <div className="App">
-          <TopBar arret="GARE" date={this.state.date} hour={this.state.hour} />
-          <NextBus />
+          <TopBar arret="GARES" date={this.state.date} hour={this.state.hour} />
+          <NextBus dir="Pré de l'eau" colorLine="#FDEA00" lineName="C2" colorPert="#61B045" pertText="TRAFIC NORMAL" colorHO1="green"  HO1="13 MIN" colorHO2="red" HO2="20 MIN" HO1PERT="AFFLUENCE FAIBLE" HO2PERT="AFFLUENCE FORTE" dirPert="Arret Vallier non desservi travaux en cours"/>
+          <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
+          <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
+          <InfoWidget />
+          <AppuiBtn />
       </div>
     );
   }
