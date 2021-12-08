@@ -13,10 +13,13 @@ class  App extends React.Component {
 
   constructor(props) {
     super();
-    
+    let lquestions=[];
+    lquestions.push("Le C1 est il déjà passé ?");
+    lquestions.push("Le bus est-il accessible au fauteuil roulant ?");
     this.state={
       date:"",
-      hour:""
+      hour:"",
+      questions:lquestions,
     };
    
   }
@@ -62,7 +65,7 @@ class  App extends React.Component {
           <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
           
          
-          <Questions />
+          <Questions listFaqs={this.state.questions} />
       </div>
     );
   }
