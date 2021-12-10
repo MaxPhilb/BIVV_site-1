@@ -1,11 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
+import { SwitchTransition, CSSTransition } from "react-transition-group";
 import TopBar from './topBar'
 import React from 'react';
 import NextBus from './nextBus';
 import InfoWidget from './info';
 import AppuiBtn from './appuiBtn';
 import Questions from './questions';
+import Transcript from './transcript';
 
 class  App extends React.Component {
 
@@ -21,6 +22,7 @@ class  App extends React.Component {
       hour:"",
       questions:lquestions,
     };
+    this.toggleVisibility=this.toggleVisibility.bind(this);
    
   }
 
@@ -38,7 +40,8 @@ class  App extends React.Component {
     let heureJ=h+":"+m;
     this.setState({
       date:dateJ,
-      hour:heureJ
+      hour:heureJ,
+      etatTransition:false
     })
   }
   
@@ -54,7 +57,13 @@ class  App extends React.Component {
 /*
  <InfoWidget />
 <AppuiBtn />
+<Transcript phrase="Quel bus ?"/>
  */
+toggleVisibility() {
+  this.setState(prevState => ({
+    etatTransition: !prevState.etatTransition
+  }));
+}
 
   render(){
     return (
@@ -64,8 +73,31 @@ class  App extends React.Component {
           <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
           <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
           
+          <button className="display" onClick={this.toggleVisibility}>
+          List
+        </button>
+          
+          <CSSTransition
+           
+            in={this.state.etatTransition}
+            timeout={500}
+            classNames="move"
+            unmountOnExit
+          >
+            <div className="move">
+            <Questions listFaqs={this.state.questions} />
          
-          <Questions listFaqs={this.state.questions} />
+            </div>
+          
+          </CSSTransition>
+
+          
+          
+
+          
+         
+         
+         
       </div>
     );
   }
