@@ -6,6 +6,7 @@
   padding-left: 5px;
   padding-right: 5px;
   position: relative;
+  overflow: hidden;
 }
 
 .App-logo {

@@ -1,5 +1,5 @@
 import './App.css';
-import { SwitchTransition, CSSTransition } from "react-transition-group";
+import { slideInUp } from 'react-animations'
 import TopBar from './topBar'
 import React from 'react';
 import NextBus from './nextBus';
@@ -7,6 +7,15 @@ import InfoWidget from './info';
 import AppuiBtn from './appuiBtn';
 import Questions from './questions';
 import Transcript from './transcript';
+import styled, { keyframes } from "styled-components";
+
+
+const Anim = keyframes`${slideInUp}`;
+const FadeInUpDiv = styled.div`
+  animation:  2s ${Anim};
+`;
+const Animatedivfade =styled.div`color: blue;
+`;
 
 class  App extends React.Component {
 
@@ -21,6 +30,7 @@ class  App extends React.Component {
       date:"",
       hour:"",
       questions:lquestions,
+      etatTransition:false
     };
     this.toggleVisibility=this.toggleVisibility.bind(this);
    
@@ -41,7 +51,7 @@ class  App extends React.Component {
     this.setState({
       date:dateJ,
       hour:heureJ,
-      etatTransition:false
+      
     })
   }
   
@@ -66,6 +76,7 @@ toggleVisibility() {
 }
 
   render(){
+
     return (
       <div className="App">
           <TopBar arret="GARES" date={this.state.date} hour={this.state.hour} />
@@ -74,27 +85,20 @@ toggleVisibility() {
           <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
           
           <button className="display" onClick={this.toggleVisibility}>
-          List
+          List 
         </button>
-          
-          <CSSTransition
-           
-            in={this.state.etatTransition}
-            timeout={500}
-            classNames="move"
-            unmountOnExit
-          >
-            <div className="move">
-            <Questions listFaqs={this.state.questions} />
+        <div style={{fontSize:"25px"}}>
+        {this.state.etatTransition}
+        </div>
+        <div style={{position:"absolute",bottom:"0",width:"99%"}} >
+        <FadeInUpDiv style={{display:this.state.etatTransition ? "block" : "none"}}>
+          <Questions listFaqs={this.state.questions} />
+        </FadeInUpDiv>
+        
+         </div>
+            
          
-            </div>
-          
-          </CSSTransition>
-
-          
-          
-
-          
+           
          
          
          
