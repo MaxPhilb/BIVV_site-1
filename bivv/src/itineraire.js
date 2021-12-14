@@ -7,7 +7,7 @@ class Itineraire extends  React.Component {
     constructor(props) {
       super(props);
       this.state = {
-       colorLine:"yellow",
+       colorLine:"green",
        nameLine:"C2",
       };
       
@@ -67,8 +67,30 @@ class Itineraire extends  React.Component {
                 </div>
                 
             </div>
-            <StopBar colorLine={this.state.colorLine} colorText="green" hour="13h58" name="Gares" />
+            <StopBar colorLine={this.state.colorLine} colorText="green" circleColor="green" hour="13h38" name="Gares" />
             
+            <StopBar colorLine={this.state.colorLine} colorText="black" circleColor="white" hour="13h41" name="Félix Viallet" />
+
+            <div className='resteStop'>
+                <div className='itLine' >
+                    <div className='itLineBorder' >
+
+                    </div>
+
+                </div>
+                <div className='rSLine' >
+                
+                    <div className='rSCircle' style={{backgroundColor:this.state.colorLine,top: "4px"}}></div>
+                    <div className='rSCircle' style={{backgroundColor:this.state.colorLine,top: "16px"}}></div>
+                    <div className='rSCircle' style={{backgroundColor:this.state.colorLine,top: "28px"}}></div>
+                    
+                </div>
+                <div className='rSText'>
+                    (13 arrêts)
+                </div>
+            </div>
+
+            <StopBar colorLine={this.state.colorLine} colorText="black" circleColor="white" hour="14h10" name="Maupertuis (terminus)" />
 
             
 

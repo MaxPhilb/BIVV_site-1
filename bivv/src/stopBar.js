@@ -28,10 +28,22 @@ class StopBar extends  React.Component {
 
             </div>
             <div className='stbLineStop' >
-                
+                <div className='stbLineStopBar' style={{backgroundColor:this.props.colorLine}} >
+                <div className='stbLineStopCircle' style={{backgroundColor:this.props.circleColor}}>
+
+                </div>
+
+                </div>
             </div>
-            <div className='stbComText' >
-                Durée du trajet 6 arrêts
+            <div className='stbHour' style={{color: this.props.colorText}}>
+                    {this.props.hour}
+            </div>
+            <div className='stbStopName' style={{color: this.props.colorText}} >
+                {this.props.name}
+            </div>
+            <div className='stbStopPMR' >
+                
+
             </div>
             
         </div>
