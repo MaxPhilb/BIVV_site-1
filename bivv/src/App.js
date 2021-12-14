@@ -41,7 +41,7 @@ class  App extends React.Component {
       transitionToPushBtn:false,
       infoWidget:true,
       transistionTranscript:false,
-      detectedPhrase:" Le bus est il deja passé ?",
+      detectedPhrase:" Comment me rendre à Maupertuis ?",
       loadResult:"",
       textfield:"",
       stateAnswer:false

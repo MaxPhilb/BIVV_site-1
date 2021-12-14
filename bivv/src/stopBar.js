@@ -1,5 +1,6 @@
 import React from 'react';
 import './stopBar.css';
+import pmrBar from './images/pmrbar.png'
 
 
 class StopBar extends  React.Component {
@@ -41,10 +42,12 @@ class StopBar extends  React.Component {
             <div className='stbStopName' style={{color: this.props.colorText}} >
                 {this.props.name}
             </div>
+            {this.props.pmrImp==="true" &&
             <div className='stbStopPMR' >
-                
+                <img src={pmrBar} alt="pmr"/>
 
             </div>
+            }
             
         </div>
                       
