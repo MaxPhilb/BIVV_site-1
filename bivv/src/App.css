@@ -43,3 +43,39 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes fadeout
+{
+ 
+    0%   {opacity:100%;}
+    
+    100% {opacity: 0%; display: none;}
+  
+}
+
+
+@keyframes fadeoutPTT
+{
+ 
+    0%   {opacity:100%;bottom:0}
+    
+    100% {opacity: 0%; bottom: 0;}
+  
+}
+
+.reponse{
+  position: absolute;
+  bottom: 0;
+  width:99%;
+  background-color:#F6F6F6;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  transition: height 2s;
+}
+.detectedPhrase{
+ 
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 25px;
+ 
+}

@@ -43,8 +43,8 @@ class AppuiBtn extends  React.Component {
             </div>
             <div className='ABTNDes'>
               <div className='ABTNDesTop'>
-                  <div >Appuyez sur le bouton,je suis un assitant vocal !</div>
-                  <svg style={{paddingTop:'5px'}} width="140" height="25" viewBox="0 0 186 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <div >Appuyez sur le bouton, je suis un assitant vocal !</div>
+                  <svg style={{paddingTop:'15px'}} width="140" height="25" viewBox="0 0 186 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 3L93 37L183 3" stroke="#A2D3EE" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M3 9L93 43L183 9" stroke="#A2D3EE" stroke-opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>

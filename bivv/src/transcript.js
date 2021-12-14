@@ -231,11 +231,9 @@ class Transcript extends  React.Component {
                 
             </div>      
             <div className="evoluBar" >
-
+                <div className="evoluBarBar" style={{width:this.props.loading}} ></div>
             </div>
-            <div className="detectedPhrase" >
-                {this.props.phrase}
-            </div>
+           
         </div>
                       
                   

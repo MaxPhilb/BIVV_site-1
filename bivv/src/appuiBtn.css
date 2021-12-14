@@ -38,7 +38,8 @@
     position: relative;
     float: left;
     border-top-right-radius: 25px;
-    
+    padding-top: 15px;
+    padding-bottom: 10px;
     
 }
 

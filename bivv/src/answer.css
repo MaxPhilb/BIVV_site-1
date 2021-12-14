@@ -1,0 +1,15 @@
+.answer{
+    
+    position: relative;
+    width:99%;
+    
+
+}
+
+.answerDesc{
+    color:green;
+    background-color:white;
+    border-radius: 25px;
+    height:40px;
+    padding-top: 10px;
+}
