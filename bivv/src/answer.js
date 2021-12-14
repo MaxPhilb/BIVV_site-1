@@ -1,5 +1,6 @@
 import React from 'react';
 import './answer.css';
+import Itineraire from './itineraire';
 
 
 class Answer extends  React.Component {
@@ -21,11 +22,12 @@ class Answer extends  React.Component {
         return(
         <div className="answer">
             <div className='answerDesc' >
-                voici votre itineraire
+                Voici votre itineraire
             </div>
 
             <div className='contenu' >
-                contenu
+                
+                <Itineraire  />
             </div>
            
         </div>

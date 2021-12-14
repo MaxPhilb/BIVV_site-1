@@ -1,0 +1,87 @@
+.itineraire{
+
+}
+
+.itDep{
+    height:40px;
+    position: relative;
+    float: left;
+    width: 100%;
+}
+
+.itDep .cible{
+    position: relative;
+    height: 40px;
+    float: left;
+}
+
+.itDepText{
+    position: relative;
+    font-size: 25px;
+    font-weight: bold;
+    float: left;
+}
+
+.itDepArret{
+    height:40px;
+    position: relative;
+    float: left;
+    width: 100%;
+}
+
+.itDepArret .bus{
+    position: relative;
+    float: left;
+    height:43px;
+}
+
+
+
+.itDepBusLogo{
+    position: relative;
+    height: 40px;
+    width:40px;
+    float: left;
+}
+.itDepBusText{
+    
+    position: absolute;
+    top: 8px;
+    text-align: center;
+    left: 10px;
+    
+}
+
+.itDepArretText{
+    position: relative;
+    float: left;
+}
+
+.itDepCom{
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 40px;
+}
+
+.itLine{
+    position: relative;
+    float: left;
+    height: 100%;
+    width:20px;
+    
+}
+.itLineBorder{
+    position: relative;
+    float: left;
+    margin-left: 6px;
+    border-right: 4px solid black;
+    height: 100%;
+    width:10px;
+}
+
+.itDepComText{
+    position: relative;
+    float: left;
+
+}
