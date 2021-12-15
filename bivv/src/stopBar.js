@@ -17,7 +17,18 @@ class StopBar extends  React.Component {
    
     render(){
         
-        
+        let topBar="";
+        let topCircle="";
+        let heightBar="100%";
+        if(this.props.position=="first"){
+            topBar="14px";
+            topCircle="-2px";
+        }
+        if(this.props.position=="last"){
+            
+            heightBar="58%";
+            topCircle="14px";
+        }
         
        
         return(
@@ -29,8 +40,8 @@ class StopBar extends  React.Component {
 
             </div>
             <div className='stbLineStop' >
-                <div className='stbLineStopBar' style={{backgroundColor:this.props.colorLine}} >
-                <div className='stbLineStopCircle' style={{backgroundColor:this.props.circleColor}}>
+                <div className='stbLineStopBar' style={{backgroundColor:this.props.colorLine,top:topBar, height:heightBar}} >
+                <div className='stbLineStopCircle' style={{backgroundColor:this.props.circleColor,top:topCircle}}>
 
                 </div>
 

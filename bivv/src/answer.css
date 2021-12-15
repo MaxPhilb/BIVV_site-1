@@ -10,6 +10,12 @@
     color:green;
     background-color:white;
     border-radius: 25px;
-    height:40px;
-    padding-top: 10px;
+    height:25px;
+    padding-top: 3px;
+}
+
+.contenu{
+    height: 100%;
+    position: relative;
+    float: left;
 }

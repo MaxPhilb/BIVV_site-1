@@ -135,7 +135,7 @@ toggleAnswer(){
 
       let heightReponse="60px";
       if(this.state.stateAnswer){
-         heightReponse="620px";
+         heightReponse="650px";
          
       }
     
@@ -193,7 +193,7 @@ toggleAnswer(){
         
           <div className="reponse"  style={{ height:heightReponse}}>
            
-          <div className='detectedPhrase'> {this.state.detectedPhrase}  </div>
+          <div className='detectedPhrase' style={{fontSize:this.state.stateAnswer ? "16px" : "25px"}}> {this.state.detectedPhrase}  </div>
           
           {this.state.stateAnswer && <Answer />}
           </div>
