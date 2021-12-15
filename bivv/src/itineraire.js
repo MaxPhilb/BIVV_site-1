@@ -1,7 +1,8 @@
 import React from 'react';
 import './itineraire.css';
+import QRCode from "react-qr-code";
 
-import qrcode from './images/qrcode.png'
+//import qrcode from './images/qrcode.png'
 import Parcours from './parcours';
 
 
@@ -48,6 +49,9 @@ class Itineraire extends  React.Component {
         let firstStop=this.state.itineraire[0].list[0];
         let lastStop=this.state.itineraire[this.state.itineraire.length-1].list[this.state.itineraire[this.state.itineraire.length-1].list.length-1];
        
+        let googleLink="https://www.google.com/maps/dir/?api=1&origin=gare,grenoble&destination="+lastStop.name+",grenoble&travelmode=transit";
+
+        console.log(googleLink);
         return(
         <div className="itineraire">
             <div className='itDep' >
@@ -84,7 +88,8 @@ class Itineraire extends  React.Component {
             
 
         <div className='qrcodeIt'>
-                <img src={qrcode} alt="qrcode" />
+                {/*} <img src={qrcode} alt="qrcode" /> */}
+                <QRCode size="150" value={googleLink} />
         </div>
 
            

@@ -1,0 +1,26 @@
+.carto{
+    position: relative;
+    width: 100%;
+   height:300px;
+   margin: auto;
+}
+.leaflet-container {
+    width: 100%;
+   height:300px;
+    z-index: 1;
+    position: relative;
+  }
+
+  .qrcodeIt{
+    position: absolute;
+    bottom: 0;
+    right:0;
+    height: 150px;
+    width: 150px;
+    z-index: 200;
+}
+.qrcodeIt img{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}

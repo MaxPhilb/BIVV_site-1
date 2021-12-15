@@ -1,5 +1,6 @@
 import React from 'react';
 import './answer.css';
+import Carto from './carto';
 import Itineraire from './itineraire';
 
 
@@ -27,7 +28,8 @@ class Answer extends  React.Component {
 
             <div className='contenu' >
                 
-                <Itineraire  />
+                {/*<Itineraire  />*/}
+                <Carto />
             </div>
            
         </div>
