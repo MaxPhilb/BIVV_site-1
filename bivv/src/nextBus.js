@@ -67,11 +67,13 @@ class NextBus extends  React.Component {
                         {this.props.HO1}
                     </div>
                 </div>
+                
                 <div className='NBHBOTTOM ' style={{  backgroundColor: this.props.colorHO1}}>
                     <div className="NBHBOTTOMTEXT" >
                         {this.props.HO1PERT}
                     </div>
                 </div>
+                
 
             </div>
 

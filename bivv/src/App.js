@@ -146,7 +146,7 @@ toggleAnswer(){
           <TopBar arret="GARES" date={this.state.date} hour={this.state.hour} />
           <NextBus dir="Pré de l'eau" colorLine="#FDEA00" lineName="C2" colorPert="#61B045" pertText="TRAFIC NORMAL" colorHO1="green"  HO1="13 MIN" colorHO2="red" HO2="20 MIN" HO1PERT="AFFLUENCE FAIBLE" HO2PERT="AFFLUENCE FORTE" dirPert="Arret Vallier non desservi travaux en cours"/>
           <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
-          <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
+          <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="#102F54"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
           
 
 

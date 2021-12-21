@@ -28,8 +28,8 @@ class Answer extends  React.Component {
 
             <div className='contenu' >
                 
-            <Carto />
-               {/*<Itineraire  /> */}
+             <Carto />
+              {/*<Itineraire  />  */} 
             </div>
            
         </div>
