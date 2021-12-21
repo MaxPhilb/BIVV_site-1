@@ -11,10 +11,8 @@ import styled, { keyframes } from "styled-components";
 import Answer from './answer';
 
 
+
 const AnimIn = keyframes`${slideInUp}`;
-
-
-
 
 
 
@@ -34,6 +32,8 @@ class  App extends React.Component {
     lquestions.push("Quelles sont les horaires du musée ... ?");
     lquestions.push("Où est le restaurant le plus proche ?");
 
+    this.ws = new WebSocket('ws://192.168.10.46:1880/ws')
+
     this.state={
       date:"",
       hour:"",
@@ -42,9 +42,10 @@ class  App extends React.Component {
       infoWidget:true,
       transistionTranscript:false,
       detectedPhrase:" Comment me rendre à Maupertuis ?",
-      loadResult:"",
+      
       textfield:"",
-      stateAnswer:false
+      stateAnswer:false,
+      dataFromServer:{action:""}
     };
     this.togglePTT=this.togglePTT.bind(this);
     this.fadeoutEnd=this.fadeoutEnd.bind(this);
@@ -52,6 +53,8 @@ class  App extends React.Component {
     this.handleChange=this.handleChange.bind(this);
     this.toggleAnswer=this.toggleAnswer.bind(this);
   }
+
+
 
   setHour(){
     let ladate=new Date();
@@ -77,6 +80,25 @@ class  App extends React.Component {
       () => this.setHour(),
       1000
     );
+
+    this.ws.onopen = () => {
+      // on connecting, do nothing but log it to the console
+      console.log('connected')
+      }
+  
+      this.ws.onmessage = evt => {
+      // listen to data sent from the websocket server
+      const message = JSON.parse(evt.data)
+      this.setState({dataFromServer: message})
+      console.log(message)
+      }
+        this.ws.onclose = () => {
+      console.log('disconnected')
+      // automatically try to reconnect on connection loss
+  
+      }
+    
+
   }
   componentWillUnmount() {
     clearInterval(this.intervalID);
@@ -90,54 +112,56 @@ class  App extends React.Component {
 handleChange(event){
   this.setState({textfield: event.target.value,loadResult:event.target.value});
 }
-togglePTT() {
-  this.setState(prevState => ({
-    transitionToPushBtn: !prevState.transitionToPushBtn
-  }));
-}
-
 fadeoutEnd(event){
   console.log("fin anim");
   event.target.style.display="none";
 }
 
-toggleTranscript(){
-  this.setState(prevState =>({
-    transitionTranscript:!prevState.transitionTranscript
-  }));
-}
-toggleAnswer(){
-  this.setState(prevState =>({
-    stateAnswer:!prevState.stateAnswer
-  }));
-}
+
 
   render(){
     let displayInfo = "";
     let animationInfo="";
     let animationLaunch="";
     let transcript=false;
-    
-      if(!this.state.transitionToPushBtn){
-        displayInfo="block";
-        
-      }else{
+    let loadResult="0";
+    let detectedPhrase="";
+
+    console.log("dataFromServer");
+    console.log(this.state.dataFromServer['action']);
+
+    if(this.state.dataFromServer['action']==="start"){
         animationInfo="fadeout 500ms";
         animationLaunch=" slideup 1s forwards";
-      }
-      
-      if(this.state.transitionTranscript){
-        animationLaunch=""
+    }
+    if(this.state.dataFromServer['action']==="call"){
+      animationLaunch=""
         transcript=true
-      }else{
-
-      }
+    }
+    if(this.state.dataFromServer['action']==="phraseDetected"){
+      loadResult="100";
+      animationLaunch=""
+        transcript=true
+        detectedPhrase=this.state.dataFromServer['phrase'];
+      
+    }
+    if(this.state.dataFromServer['action']==="reset"){
+      console.log("dans reset");
+      displayInfo="block";
+    }
+    
+    if((this.state.dataFromServer['action']==="trajet"){{
+      
+    }     
+   
 
       let heightReponse="60px";
       if(this.state.stateAnswer){
          heightReponse="650px";
          
       }
+
+      
     
     return (
 
@@ -161,13 +185,10 @@ toggleAnswer(){
         <button className="display" onClick={this.toggleAnswer}>
           Reponse (phase 3)
         </button>
+        {this.state.dataFromServer['action']}
 
 
 
-
-        <div style={{fontSize:"25px"}}>
-        {this.state.etatTransition}
-        </div>
         <div style={{display:displayInfo, animation:animationInfo}} onAnimationEnd={this.fadeoutEnd} >
           <InfoWidget  /> 
         </div>
@@ -185,15 +206,14 @@ toggleAnswer(){
           </div>
          
         </div>
-        
-        {(transcript && !this.state.stateAnswer) && <Transcript  loading={this.state.loadResult+"%"} />}
+        {(transcript && !this.state.stateAnswer) && <Transcript  loading={loadResult+"%"} />}
 
        
         {(transcript ) &&  
         
           <div className="reponse"  style={{ height:heightReponse}}>
            
-          <div className='detectedPhrase' style={{fontSize:this.state.stateAnswer ? "16px" : "25px"}}> {this.state.detectedPhrase}  </div>
+          <div className='detectedPhrase' style={{fontSize:this.state.stateAnswer ? "16px" : "25px"}}> {detectedPhrase}  </div>
           
           {this.state.stateAnswer && <Answer />}
           </div>
