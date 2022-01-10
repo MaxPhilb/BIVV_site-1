@@ -9,7 +9,9 @@ import Parcours from './parcours';
 class Itineraire extends  React.Component {
     constructor(props) {
       super(props);
+      
       let itineraire=[];
+      /*
       let listA=[];
       listA.push({hour:"13:58",name:"Gares",pmrImp:"false"});
       listA.push({hour:"14:10",name:"Hotel de ville",pmrImp:"false"});
@@ -22,10 +24,10 @@ class Itineraire extends  React.Component {
       listB.push({hour:"14:56",name:"Maupertuis",pmrImp:"false"});
 
       itineraire.push({list:listB,colorLine:"orange", nameLine:"C1",commentIt:"Durée du trajet 13 arrêts",tMStop:true, tMText: "(11 arrêts)"})
-
+        */
       this.state = {
        
-       itineraire:itineraire,
+       
        
       };
       
@@ -40,14 +42,14 @@ class Itineraire extends  React.Component {
 
 
         let lParcours=[];
-        for(var i=0;i<this.state.itineraire.length;i++){
-            let it=this.state.itineraire[i];
+        for(var i=0;i<this.props.itineraire.length;i++){
+            let it=this.props.itineraire[i];
             console.log(it.commentIt);
-            lParcours.push(<Parcours listArrets={it.list} colorLine={it.colorLine} nameLine={it.nameLine} commentIt={it.commentIt} tMStop={it.tMStop} tMText={it.tMText}/>)
+            lParcours.push(<Parcours listArrets={it.list} mode={it.mode} colorLine={it.colorLine} nameLine={it.nameLine} commentIt={it.commentIt} tMStop={it.tMStop} tMText={it.tMText}/>)
         }
         
-        let firstStop=this.state.itineraire[0].list[0];
-        let lastStop=this.state.itineraire[this.state.itineraire.length-1].list[this.state.itineraire[this.state.itineraire.length-1].list.length-1];
+        let firstStop=this.props.itineraire[0].list[0];
+        let lastStop=this.props.itineraire[this.props.itineraire.length-1].list[this.props.itineraire[this.props.itineraire.length-1].list.length-1];
        
         let googleLink="https://www.google.com/maps/dir/?api=1&origin=gare,grenoble&destination="+lastStop.name+",grenoble&travelmode=transit";
 
@@ -72,6 +74,7 @@ class Itineraire extends  React.Component {
             <div className='itDepArret' >
 
                 <div className='bus' >
+                
                     <svg width="100%" height="100%" viewBox="0 0 28 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.3092 0C6.86745 0 0.848633 6.1035 0.848633 13.65C0.848633 23.8875 14.3092 39 14.3092 39C14.3092 39 27.7698 23.8875 27.7698 13.65C27.7698 6.1035 21.751 0 14.3092 0ZM14.3092 18.525C11.6556 18.525 9.50188 16.341 9.50188 13.65C9.50188 10.959 11.6556 8.775 14.3092 8.775C16.9629 8.775 19.1166 10.959 19.1166 13.65C19.1166 16.341 16.9629 18.525 14.3092 18.525Z" fill="black"/>
                     </svg>

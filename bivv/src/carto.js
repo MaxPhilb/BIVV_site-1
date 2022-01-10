@@ -24,34 +24,23 @@ class Carto extends  React.Component {
       super(props);
     
       let defibrillateur={
-          destinationLink:"45.190901,5.713469",
-          destinationCoord:[45.190901,5.713469],
-          destinationName:"Defibrillateur: Hotel Novotel",
+          
+          lat:45.190901,
+          lon:5.713469,
+          name:"Defibrillateur: Hotel Novotel",
           zoom:18
         
         }
     
-        let sephora={
-            destinationLink:"6 Pl. Victor Hugo, 38000 Grenoble",
-            destinationCoord:[45.189249, 5.723945],
-            destinationName:"Sephora",
-            zoom:15
-          
-          }
+       
 
-        let departure={
-            departureLink:"gare,grenoble",
-            departureCoord:[45.191077, 5.714149],
-            departureName:"Gares",
-            
-
-        }
+      
         
         
       this.state = {
           
-            dest:defibrillateur,
-            dep:departure,
+            dest:this.props.destination,
+            dep:this.props.departure,
             
           
       };
@@ -63,24 +52,25 @@ class Carto extends  React.Component {
    
     render(){
 
-        let googleLink="https://www.google.com/maps/dir/?api=1&origin="+this.state.dep+"&destination="+this.state.dest.destinationLink+"&travelmode=transit";
+        let destinationLink=""+this.state.dest.lat+","+this.state.dest.lon+"";
+        let googleLink="https://www.google.com/maps/dir/?api=1&origin="+this.state.dep.name+"&destination="+destinationLink+"&travelmode=transit";
 
         let centerCoord=[];
 
-        let latdif=(this.state.dep.departureCoord[0] - this.state.dest.destinationCoord[0])/2;
-        let longdif=(this.state.dep.departureCoord[1] - this.state.dest.destinationCoord[1])/2;
+        let latdif=(this.state.dep.lat - this.state.dest.lat)/2;
+        let longdif=(this.state.dep.lon - this.state.dest.lon)/2;
 
         let lat=0;
         let long=0;
         
         
-        if(latdif>0){  lat=this.state.dep.departureCoord[0]+latdif;
+        if(latdif>0){  lat=this.state.dep.lat+latdif;
         }
-        else{ lat=this.state.dep.departureCoord[0]-latdif;
+        else{ lat=this.state.dep.lat-latdif;
+        }   
+        if(longdif>0){  long=this.state.dep.lon+longdif;
         }
-        if(longdif>0){  long=this.state.dep.departureCoord[1]+longdif;
-        }
-        else{ long=this.state.dep.departureCoord[1]-longdif;
+        else{ long=this.state.dep.lon-longdif;
         }
         centerCoord[0]=lat;
         centerCoord[1]=long;
@@ -95,7 +85,7 @@ class Carto extends  React.Component {
                     </svg>
                 </div>
                 <div className='cartoDepText'>
-                    {this.state.dep.departureName}
+                    {this.state.dep.name}
                 </div>
                 
             </div>
@@ -104,14 +94,14 @@ class Carto extends  React.Component {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="http://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
                 />
-                <Marker position={this.state.dep.departureCoord} icon={depIcon}>
+                <Marker position={[this.state.dep.lat,this.state.dep.lon]} icon={depIcon}>
                   <Tooltip direction="top" offset={[0, -20]} opacity={1} permanent>
                         Vous êtes ici
                     </Tooltip>
                 </Marker>
-                <Marker position={this.state.dest.destinationCoord} icon={destIcon} >
+                <Marker position={[this.state.dest.lat,this.state.dest.lon]} icon={destIcon} >
                 <Tooltip direction="bottom" offset={[0, 15]} opacity={1} permanent>
-                        {this.state.dest.destinationName}
+                        {this.state.dest.name}
                     </Tooltip>
                 </Marker>
             </MapContainer>
@@ -126,7 +116,7 @@ class Carto extends  React.Component {
                
                 <div className='cartoDepArretText' >
                     {
-                       this.state.dest.destinationName
+                       this.state.dest.name
                     }
                        
                 </div>

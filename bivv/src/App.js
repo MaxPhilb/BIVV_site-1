@@ -22,39 +22,32 @@ class  App extends React.Component {
 
   constructor(props) {
     super();
-    let lquestions=[];
-    lquestions.push("Le C1 est il déjà passé ?");
-    lquestions.push("Le bus est-il accessible au fauteuil roulant ?");
-    lquestions.push("Comment aller à l’arrêt Victor Hugo ?");
-    lquestions.push("Comment aller à l’arrêt Ponsard ?");
-    lquestions.push("Combien de temps dure mon trajet ?");
-    lquestions.push("Est-ce que je suis en direction de ... ? ");
-    lquestions.push("Quelles sont les horaires du musée ... ?");
-    lquestions.push("Où est le restaurant le plus proche ?");
-
-    this.ws = new WebSocket('ws://192.168.10.46:1880/ws')
+   
+    this.timeout = 250; // Initial timeout duration as a class variable
+    this.stateAnswer=false;
+    this.detectedPhrase="";
+    this.departureInfo="";
 
     this.state={
       date:"",
       hour:"",
-      questionsFAQ:lquestions,
+     
       transitionToPushBtn:false,
       infoWidget:true,
       transistionTranscript:false,
       detectedPhrase:" Comment me rendre à Maupertuis ?",
       
       textfield:"",
-      stateAnswer:false,
+      
       dataFromServer:{action:""}
     };
-    this.togglePTT=this.togglePTT.bind(this);
+    
     this.fadeoutEnd=this.fadeoutEnd.bind(this);
-    this.toggleTranscript=this.toggleTranscript.bind(this);
+    
     this.handleChange=this.handleChange.bind(this);
-    this.toggleAnswer=this.toggleAnswer.bind(this);
   }
 
-
+ 
 
   setHour(){
     let ladate=new Date();
@@ -71,6 +64,7 @@ class  App extends React.Component {
     this.setState({
       date:dateJ,
       hour:heureJ,
+      ws:null
       
     })
   }
@@ -80,26 +74,76 @@ class  App extends React.Component {
       () => this.setHour(),
       1000
     );
+      this.connectWS();
+    }
+    
+    /**
+     * @function connect
+     * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
+     */
+    connectWS = () => {
+        var ws = new WebSocket("ws://127.0.0.1:1880/ws");
+        let that = this; // cache the this
+        var connectInterval;
 
-    this.ws.onopen = () => {
-      // on connecting, do nothing but log it to the console
-      console.log('connected')
-      }
+        // websocket onopen event listener
+        ws.onopen = () => {
+            console.log("connected websocket main component");
+
+            this.setState({ ws: ws });
+
+            that.timeout = 250; // reset timer to 250 on open of websocket connection 
+            clearTimeout(connectInterval); // clear Interval on on open of websocket connection
+        };
+
+        // websocket onclose event listener
+        ws.onclose = e => {
+            console.log(
+                `Socket is closed. Reconnect will be attempted in ${Math.min(
+                    10000 / 1000,
+                    (that.timeout + that.timeout) / 1000
+                )} second.`,
+                e.reason
+            );
+
+            that.timeout = that.timeout + that.timeout; //increment retry interval
+            connectInterval = setTimeout(this.check, Math.min(10000, that.timeout)); //call check function after timeout
+        };
+
+        // websocket onerror event listener
+        ws.onerror = err => {
+            console.error(
+                "Socket encountered error: ",
+                err.message,
+                "Closing socket"
+            );
+
+            ws.close();
+        };
+
+   
   
-      this.ws.onmessage = evt => {
+      ws.onmessage = evt => {
       // listen to data sent from the websocket server
       const message = JSON.parse(evt.data)
-      this.setState({dataFromServer: message})
+      that.setState({dataFromServer: message})
       console.log(message)
       }
-        this.ws.onclose = () => {
-      console.log('disconnected')
-      // automatically try to reconnect on connection loss
-  
-      }
+    }
+    /**
+     * utilited by the @function connect to check if the connection is close, if so attempts to reconnect
+     */
+     check = () => {
+      const { ws } = this.state;
+      if (!ws || ws.readyState == WebSocket.CLOSED) this.connectWS(); //check if websocket instance is closed, if so call `connect` function.
+  };
+
+      
+      
+    
     
 
-  }
+  
   componentWillUnmount() {
     clearInterval(this.intervalID);
   }
@@ -126,6 +170,10 @@ fadeoutEnd(event){
     let transcript=false;
     let loadResult="0";
     let detectedPhrase="";
+    let parcours="";
+    let carto="";
+    let reponse="";
+    let questionsFAQ=[];
 
     console.log("dataFromServer");
     console.log(this.state.dataFromServer['action']);
@@ -133,34 +181,68 @@ fadeoutEnd(event){
     if(this.state.dataFromServer['action']==="start"){
         animationInfo="fadeout 500ms";
         animationLaunch=" slideup 1s forwards";
+        this.departureInfo=this.state.dataFromServer['departure'];
+        questionsFAQ=this.state.dataFromServer['faq'];
     }
     if(this.state.dataFromServer['action']==="call"){
       animationLaunch=""
         transcript=true
+        
+        
+
     }
     if(this.state.dataFromServer['action']==="phraseDetected"){
       loadResult="100";
       animationLaunch=""
         transcript=true
-        detectedPhrase=this.state.dataFromServer['phrase'];
+        displayInfo="none";
+        this.stateAnswer=false;
+        this.detectedPhrase=this.state.dataFromServer['phrase'];
       
     }
     if(this.state.dataFromServer['action']==="reset"){
       console.log("dans reset");
+      this.detectedPhrase="";
       displayInfo="block";
     }
     
-    if((this.state.dataFromServer['action']==="trajet"){{
-      
+    if(this.state.dataFromServer['action']==="trajet"){
+      console.log("trajet inside");
+      parcours=this.state.dataFromServer['data'];
+      console.log(parcours);
+      transcript=true;
+      displayInfo="none";
+      reponse=this.state.dataFromServer['reponse'];
+      this.stateAnswer=true;
     }     
    
 
       let heightReponse="60px";
-      if(this.state.stateAnswer){
+      if(this.stateAnswer){
          heightReponse="650px";
          
+         
+      }
+      detectedPhrase=this.detectedPhrase;
+    
+      if(this.state.dataFromServer['action']==="defibrillateur"){
+        console.log("defibrillateur inside");
+        carto=this.state.dataFromServer['data'];
+        transcript=true;
+        displayInfo="none";
+        reponse=this.state.dataFromServer['reponse'];
+        this.stateAnswer=true;
       }
 
+      if(this.state.dataFromServer['action']==="ticket"){
+        console.log("ticket inside");
+        
+        reponse=this.state.dataFromServer['reponse'];
+        transcript=true;
+        displayInfo="none";
+       
+        this.stateAnswer=true;
+      }
       
     
     return (
@@ -175,16 +257,7 @@ fadeoutEnd(event){
 
 
 
-          <button className="display" onClick={this.togglePTT}>
-          PTT (phase 1)
-        </button>
-        <button className="display" onClick={this.toggleTranscript}>
-          Transcript (phase 2)
-        </button>
-        <input type="text" style={{width:"50px"}} value={this.state.textfield} onChange={this.handleChange}/>
-        <button className="display" onClick={this.toggleAnswer}>
-          Reponse (phase 3)
-        </button>
+        
         {this.state.dataFromServer['action']}
 
 
@@ -201,21 +274,21 @@ fadeoutEnd(event){
           
           <div style={{position: "absolute",bottom: "-600px", display:"block",animation:animationLaunch}}>
             
-            <Questions listFaqs={this.state.questionsFAQ} />
+            <Questions listFaqs={questionsFAQ} />
             
           </div>
          
         </div>
-        {(transcript && !this.state.stateAnswer) && <Transcript  loading={loadResult+"%"} />}
+        {(transcript && !this.stateAnswer) && <Transcript  loading={loadResult+"%"} />}
 
        
         {(transcript ) &&  
         
           <div className="reponse"  style={{ height:heightReponse}}>
            
-          <div className='detectedPhrase' style={{fontSize:this.state.stateAnswer ? "16px" : "25px"}}> {detectedPhrase}  </div>
+          <div className='detectedPhrase' style={{fontSize:this.stateAnswer ? "16px" : "25px"}}> {detectedPhrase}  </div>
           
-          {this.state.stateAnswer && <Answer />}
+          {this.stateAnswer && <Answer rep={reponse} parcours={parcours} carto={carto}  departure={this.departureInfo}/>}
           </div>
           }
            
