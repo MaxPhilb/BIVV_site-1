@@ -52,8 +52,11 @@ class Carto extends  React.Component {
    
     render(){
 
+        console.log(this.state.dest);
+        console.log(this.state.dep);
+
         let destinationLink=""+this.state.dest.lat+","+this.state.dest.lon+"";
-        let googleLink="https://www.google.com/maps/dir/?api=1&origin="+this.state.dep.name+"&destination="+destinationLink+"&travelmode=transit";
+        let googleLink="https://www.google.com/maps/dir/?api=1&origin="+this.state.dep.name+"&destination="+destinationLink+"&travelmode=walk";
 
         let centerCoord=[];
 
@@ -64,16 +67,19 @@ class Carto extends  React.Component {
         let long=0;
         
         
-        if(latdif>0){  lat=this.state.dep.lat+latdif;
+        if(latdif>0){  lat=this.state.dep.lat-latdif;
         }
-        else{ lat=this.state.dep.lat-latdif;
+        else{ lat=this.state.dep.lat+latdif;
         }   
-        if(longdif>0){  long=this.state.dep.lon+longdif;
+        if(longdif>0){  long=this.state.dep.lon-longdif;
         }
-        else{ long=this.state.dep.lon-longdif;
+        else{ long=this.state.dep.lon+longdif;
         }
-        centerCoord[0]=lat;
-        centerCoord[1]=long;
+        centerCoord[0]=lat.toFixed(6);
+        centerCoord[1]=long.toFixed(6);
+
+        console.log("lat: "+lat.toFixed(6));
+        console.log("lon: "+long.toFixed(6));
 
         return(
         <div className="carto">
@@ -86,10 +92,13 @@ class Carto extends  React.Component {
                 </div>
                 <div className='cartoDepText'>
                     {this.state.dep.name}
+                    <br />
+                    
                 </div>
                 
             </div>
-           <MapContainer center={centerCoord} zoom={this.state.dest.zoom} scrollWheelZoom={false}>
+            <br />
+           <MapContainer style={{marginTop:"40px"}} center={centerCoord} zoom={this.state.dest.zoom} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="http://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
@@ -101,7 +110,7 @@ class Carto extends  React.Component {
                 </Marker>
                 <Marker position={[this.state.dest.lat,this.state.dest.lon]} icon={destIcon} >
                 <Tooltip direction="bottom" offset={[0, 15]} opacity={1} permanent>
-                        {this.state.dest.name}
+                        {this.state.dest.titre}
                     </Tooltip>
                 </Marker>
             </MapContainer>
@@ -116,7 +125,11 @@ class Carto extends  React.Component {
                
                 <div className='cartoDepArretText' >
                     {
-                       this.state.dest.name
+                       this.state.dest.titre
+                    }
+                    <br />
+                    {
+                       this.state.dest.adresse
                     }
                        
                 </div>

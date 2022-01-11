@@ -14,7 +14,8 @@ import Answer from './answer';
 
 const AnimIn = keyframes`${slideInUp}`;
 
-
+const IP="192.168.10.46";
+//const IP="127.0.0.1";
 
 class  App extends React.Component {
 
@@ -82,7 +83,7 @@ class  App extends React.Component {
      * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
      */
     connectWS = () => {
-        var ws = new WebSocket("ws://127.0.0.1:1880/ws");
+        var ws = new WebSocket("ws://"+IP+":1880/ws");
         let that = this; // cache the this
         var connectInterval;
 
@@ -225,24 +226,28 @@ fadeoutEnd(event){
       }
       detectedPhrase=this.detectedPhrase;
     
-      if(this.state.dataFromServer['action']==="defibrillateur"){
-        console.log("defibrillateur inside");
+      if(this.state.dataFromServer['action']==="carto"){
+        console.log("carto inside");
         carto=this.state.dataFromServer['data'];
         transcript=true;
         displayInfo="none";
+        this.departureInfo=this.state.dataFromServer['departure'];
         reponse=this.state.dataFromServer['reponse'];
         this.stateAnswer=true;
       }
 
-      if(this.state.dataFromServer['action']==="ticket"){
-        console.log("ticket inside");
+      if(this.state.dataFromServer['action']==="prix"){
+        console.log("prix inside");
         
         reponse=this.state.dataFromServer['reponse'];
         transcript=true;
         displayInfo="none";
-       
         this.stateAnswer=true;
       }
+
+     let nextBus=[];
+
+     nextBus.push(<NextBus dir="Pré de l'eau" colorLine="#FDEA00" lineName="C1" colorPert="#61B045" pertText="TRAFIC NORMAL" colorHO1="#102F54"  HO1="13 MIN" colorHO2="#102F54" HO2="20 MIN" HO1PERT="" HO2PERT="" dirPert="Arret Vallier non desservi travaux en cours"/>)
       
     
     return (
@@ -250,15 +255,13 @@ fadeoutEnd(event){
      
       <div className="App">
           <TopBar arret="GARES" date={this.state.date} hour={this.state.hour} />
-          <NextBus dir="Pré de l'eau" colorLine="#FDEA00" lineName="C2" colorPert="#61B045" pertText="TRAFIC NORMAL" colorHO1="green"  HO1="13 MIN" colorHO2="red" HO2="20 MIN" HO1PERT="AFFLUENCE FAIBLE" HO2PERT="AFFLUENCE FORTE" dirPert="Arret Vallier non desservi travaux en cours"/>
-          <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="orange"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
-          <NextBus dir="TOTO" colorLine="blue" lineName="4" colorPert="red" pertText="TRAFIC PERTURBÉ" colorHO1="#102F54"  HO1="7 MIN" colorHO2="green" HO2="25 MIN" HO1PERT="AFFLUENCE MOYENNE" HO2PERT="AFFLUENCE FAIBLE"/>
           
+          {nextBus}
 
 
 
         
-        {this.state.dataFromServer['action']}
+        {/*this.state.dataFromServer['action']*/}
 
 
 
