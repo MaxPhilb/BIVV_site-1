@@ -14,8 +14,8 @@ import Answer from './answer';
 
 const AnimIn = keyframes`${slideInUp}`;
 
-const IP="192.168.10.46";
-//const IP="127.0.0.1";
+//const IP="192.168.10.46";
+const IP="127.0.0.1";
 
 class  App extends React.Component {
 
@@ -246,9 +246,21 @@ fadeoutEnd(event){
       }
 
      let nextBus=[];
+     if(this.state.dataFromServer['action']==="realtime"){
+      let listNB=this.state.dataFromServer['data'];
+      let nbMaxDisplay=3;
+      for(let i=0;i<nbMaxDisplay;i++)
+      {
+        if(i<listNB.length()){
+          let nb=listNB[i];
+          nextBus.push(<NextBus dir={nb.direction} colorLine={nb.colorLine} lineName={nb.lineName} colorPert={nb.colorPert} pertText={nb.pertText} colorHO1="#102F54"  HO1={nb.HO1} colorHO2="#102F54" HO2={nb.HO2} HO1PERT="" HO2PERT="" dirPert={nb.dirPert}/>);
+        }
 
-     nextBus.push(<NextBus dir="Pré de l'eau" colorLine="#FDEA00" lineName="C1" colorPert="#61B045" pertText="TRAFIC NORMAL" colorHO1="#102F54"  HO1="13 MIN" colorHO2="#102F54" HO2="20 MIN" HO1PERT="" HO2PERT="" dirPert="Arret Vallier non desservi travaux en cours"/>)
-      
+      }
+
+        
+    }
+     
     
     return (
 
