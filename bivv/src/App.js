@@ -257,8 +257,6 @@ fadeoutEnd(event){
         }
 
       }
-
-        
     }
      
     
