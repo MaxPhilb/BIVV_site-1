@@ -182,7 +182,6 @@ fadeoutEnd(event){
     if(this.state.dataFromServer['action']==="start"){
         animationInfo="fadeout 500ms";
         animationLaunch=" slideup 1s forwards";
-        this.departureInfo=this.state.dataFromServer['departure'];
         questionsFAQ=this.state.dataFromServer['faq'];
     }
     if(this.state.dataFromServer['action']==="call"){
@@ -246,10 +245,17 @@ fadeoutEnd(event){
       }
 
      let nextBus=[];
+     let trafic={state:false};
+     let nbMaxDisplay=8;
      if(this.state.dataFromServer['action']==="realtime"){
       let listNB=this.state.dataFromServer['data'];
-      console.log(listNB);
-      let nbMaxDisplay=3;
+      //console.log(listNB);
+      trafic=this.state.dataFromServer['infoTrafic'];
+      console.log(trafic);
+      if(trafic.state){
+        nbMaxDisplay=3;
+      }
+      
       for(let i=0;i<nbMaxDisplay;i++)
       {
         if(i<listNB.length){
@@ -275,10 +281,12 @@ fadeoutEnd(event){
         {/*this.state.dataFromServer['action']*/}
 
 
-
-        <div style={{display:displayInfo, animation:animationInfo}} onAnimationEnd={this.fadeoutEnd} >
-          <InfoWidget titre="MODERNISATION DU RESEAU" sousTitre="Ligne 26: dates et horaires des perturbations pour l'année 2021" description={[" En raison de travaux, le trafic de la ligne 26 est perturbé à plusieurs reprises au fil des prochains mois.",<br />,"En raison des travaux préparatoires pour la rénovation de la ligne B du tramway vers Plaine des Sports et pour l'arrivée des trains à 6 voitures, le trafic a été perturbé sur l'ensemble de la ligne façon réguliere.Le trafic reprendra normalement le lundi 23 août."]} /> 
-        </div>
+        {(trafic.state) &&
+          <div style={{display:displayInfo, animation:animationInfo}} onAnimationEnd={this.fadeoutEnd} >
+            <InfoWidget titre={trafic.listPert[0].titre.toUpperCase()} sousTitre="" description={trafic.listPert[0].description} /> 
+          </div>
+        }
+        
         
         
         <div style={{position:"absolute",bottom:"0",width:"99%"}} >
