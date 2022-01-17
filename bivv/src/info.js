@@ -43,17 +43,14 @@ class InfoWidget extends  React.Component {
             <div className='IFDes'>
               <div className='IFDesTop'>
                     <div className='IFDesTopTT'>
-                        MODERNISATION DU RESEAU
+                        {this.props.titre}
                     </div>
                     <div className='IFDesTopDes' >
-                        Ligne 26: dates et horaires des perturbations pour l'année 2021
+                        {this.props.sousTitre}
                     </div>
               </div>
              <div className='IFDesBottom'>
-                En raison de travaux, le trafic de la ligne 26 est perturbé à plusieurs reprises au fil des prochains mois.
-                <br />
-                En raison des travaux préparatoires pour la rénovation de la ligne B du tramway vers Plaine des Sports et pour l'arrivée des trains à 6 voitures, le trafic a été perturbé sur l'ensemble de la ligne façon réguliere.
-                Le trafic reprendra normalement le lundi 23 août.
+               {this.props.description}
              </div>
             </div>
             

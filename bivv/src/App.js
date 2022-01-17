@@ -248,10 +248,11 @@ fadeoutEnd(event){
      let nextBus=[];
      if(this.state.dataFromServer['action']==="realtime"){
       let listNB=this.state.dataFromServer['data'];
+      console.log(listNB);
       let nbMaxDisplay=3;
       for(let i=0;i<nbMaxDisplay;i++)
       {
-        if(i<listNB.length()){
+        if(i<listNB.length){
           let nb=listNB[i];
           nextBus.push(<NextBus dir={nb.direction} colorLine={nb.colorLine} lineName={nb.lineName} colorPert={nb.colorPert} pertText={nb.pertText} colorHO1="#102F54"  HO1={nb.HO1} colorHO2="#102F54" HO2={nb.HO2} HO1PERT="" HO2PERT="" dirPert={nb.dirPert}/>);
         }
@@ -276,7 +277,7 @@ fadeoutEnd(event){
 
 
         <div style={{display:displayInfo, animation:animationInfo}} onAnimationEnd={this.fadeoutEnd} >
-          <InfoWidget  /> 
+          <InfoWidget titre="MODERNISATION DU RESEAU" sousTitre="Ligne 26: dates et horaires des perturbations pour l'année 2021" description={[" En raison de travaux, le trafic de la ligne 26 est perturbé à plusieurs reprises au fil des prochains mois.",<br />,"En raison des travaux préparatoires pour la rénovation de la ligne B du tramway vers Plaine des Sports et pour l'arrivée des trains à 6 voitures, le trafic a été perturbé sur l'ensemble de la ligne façon réguliere.Le trafic reprendra normalement le lundi 23 août."]} /> 
         </div>
         
         
