@@ -45,9 +45,10 @@ class InfoWidget extends  React.Component {
                     <div className='IFDesTopTT'>
                         {this.props.titre}
                     </div>
-                    <div className='IFDesTopDes' >
+                    {/* <div className='IFDesTopDes' >
                         {this.props.sousTitre}
-                    </div>
+                      </div>
+                    */}
               </div>
              <div className='IFDesBottom'>
                {this.props.description}

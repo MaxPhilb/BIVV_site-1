@@ -247,15 +247,23 @@ fadeoutEnd(event){
      let nextBus=[];
      let trafic={state:false};
      let nbMaxDisplay=8;
+     let descTrafic=[];
      if(this.state.dataFromServer['action']==="realtime"){
       let listNB=this.state.dataFromServer['data'];
       //console.log(listNB);
       trafic=this.state.dataFromServer['infoTrafic'];
+
       console.log(trafic);
       if(trafic.state){
         nbMaxDisplay=3;
       }
-      
+      if(trafic.listPert.length>0){
+        let tabDesc=trafic.listPert[0].description.split('\r\n');
+        tabDesc.forEach(function(desc){
+          descTrafic.push(desc);
+          descTrafic.push(<br />);
+        })
+      }
       for(let i=0;i<nbMaxDisplay;i++)
       {
         if(i<listNB.length){
@@ -283,7 +291,7 @@ fadeoutEnd(event){
 
         {(trafic.state) &&
           <div style={{display:displayInfo, animation:animationInfo}} onAnimationEnd={this.fadeoutEnd} >
-            <InfoWidget titre={trafic.listPert[0].titre.toUpperCase()} sousTitre="" description={trafic.listPert[0].description} /> 
+            <InfoWidget titre={trafic.listPert[0].titre.toUpperCase()}  description={descTrafic} /> 
           </div>
         }
         
