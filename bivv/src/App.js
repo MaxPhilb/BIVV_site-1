@@ -25,12 +25,12 @@ class  App extends React.Component {
     super();
    
     this.timeout = 250; // Initial timeout duration as a class variable
-    this.stateAnswer=false;
+    
     this.detectedPhrase="";
-    this.departureInfo="";
+
     this.page=0;
     this.trafic={state:false};
-
+    this.answer={};
     this.state={
       date:"",
       hour:"",
@@ -160,15 +160,11 @@ class  App extends React.Component {
 
 
   render(){
-    let animationInfo="";
+    
     let animationLaunch="";
-    let transcript=false;
+   
     let loadResult="0";
     let detectedPhrase="";
-    let parcours="";
-    let carto="";
-    let reponse="";
-    let questionsFAQ=[];
 
     console.log("dataFromServer");
     console.log(this.state.dataFromServer['action']);
@@ -179,7 +175,7 @@ class  App extends React.Component {
 
     if(this.state.dataFromServer['action']==="start"){
         this.page=1;
-        questionsFAQ=this.state.dataFromServer['faq'];
+        this.questionsFAQ=this.state.dataFromServer['faq'];
     }
     if(this.state.dataFromServer['action']==="call"){
       this.page=2;
@@ -188,52 +184,42 @@ class  App extends React.Component {
 
     }
     if(this.state.dataFromServer['action']==="phraseDetected"){
-      loadResult="100";
-      animationLaunch=""
-        transcript=true
-        
-        this.stateAnswer=false;
         this.detectedPhrase=this.state.dataFromServer['phrase'];
-      
+        this.page=3;
     }
     
     
     if(this.state.dataFromServer['action']==="trajet"){
+      this.page=4;
       console.log("trajet inside");
-      parcours=this.state.dataFromServer['data'];
-      console.log(parcours);
-      transcript=true;
-     
-      reponse=this.state.dataFromServer['reponse'];
-      this.stateAnswer=true;
+      this.answer={};
+      this.answer.parcours=this.state.dataFromServer['data'];
+      console.log(this.answer.parcours);
+      this.answer.response=this.state.dataFromServer['reponse'];
+      this.answer.carto="";
+
     }     
    
 
-      let heightReponse="60px";
-      if(this.stateAnswer){
-         heightReponse="650px";
-         
-         
-      }
+     
+
       detectedPhrase=this.detectedPhrase;
     
       if(this.state.dataFromServer['action']==="carto"){
         console.log("carto inside");
-        carto=this.state.dataFromServer['data'];
-        transcript=true;
-        
-        this.departureInfo=this.state.dataFromServer['departure'];
-        reponse=this.state.dataFromServer['reponse'];
-        this.stateAnswer=true;
+        this.answer={};
+        this.answer.carto=this.state.dataFromServer['data'];
+        this.answer.departureInfo=this.state.dataFromServer['departure'];
+        this.answer.response=this.state.dataFromServer['reponse'];
+        this.page=4;
       }
 
       if(this.state.dataFromServer['action']==="prix"){
         console.log("prix inside");
-        
-        reponse=this.state.dataFromServer['reponse'];
-        transcript=true;
-        
-        this.stateAnswer=true;
+        this.answer={};
+        this.answer.response=this.state.dataFromServer['reponse'];
+        this.page=4;
+
       }
 
      
@@ -286,9 +272,17 @@ class  App extends React.Component {
       }
       if(this.page==2){
         animationLaunch="";
-        transcript=true;
+        
       }
       if(this.page==3){
+        loadResult="100";
+        animationLaunch=""
+        
+      }
+
+      let heightReponse="60px";
+      if(this.page===4){
+           heightReponse="650px";
         
       }
     
@@ -317,29 +311,32 @@ class  App extends React.Component {
         
         
         <div style={{position:"absolute",bottom:"0",width:"99%"}} >
-        {(this.trafic.state && this.page==0) &&
-          <div style={{animation:animationInfo}}  >
-          <AppuiBtn />
-          </div>
-        }
+
+          {(this.trafic.state && this.page==0) &&
+            <div   >
+            <AppuiBtn />
+            </div>
+          }
           
-          <div style={{position: "absolute",bottom: "-600px", display:"block",animation:animationLaunch}}>
-            
-            <Questions listFaqs={questionsFAQ} />
-            
-          </div>
+          {(this.page==1) &&
+            <div style={{position: "absolute",bottom: "-600px", display:"block",animation:animationLaunch}}>
+              
+              <Questions listFaqs={this.questionsFAQ} />
+              
+            </div>
+          }
          
         </div>
-        {(transcript && !this.stateAnswer) && <Transcript  loading={loadResult+"%"} />}
+        {((this.page===2 || this.page===3) && this.page!==4) && <Transcript  loading={loadResult+"%"} />}
 
        
-        {(transcript ) &&  
+        {(this.page>=2 ) &&  
         
           <div className="reponse"  style={{ height:heightReponse}}>
            
-          <div className='detectedPhrase' style={{fontSize:this.stateAnswer ? "16px" : "25px"}}> {detectedPhrase}  </div>
+          <div className='detectedPhrase' style={{fontSize:(this.page===4) ? "16px" : "25px"}}> {detectedPhrase}  </div>
           
-          {this.stateAnswer && <Answer rep={reponse} parcours={parcours} carto={carto}  departure={this.departureInfo}/>}
+          {(this.page===4) && <Answer rep={this.answer.response} parcours={this.answer.parcours} carto={this.answer.carto}  departure={this.answer.departureInfo}/>}
           </div>
           }
            

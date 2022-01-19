@@ -25,6 +25,8 @@ class InfoWidget extends  React.Component {
     }
    
     render(){
+
+      
         return(
           <div className="infoWidget">
             <div className='IFTitle'>
