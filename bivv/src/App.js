@@ -29,7 +29,6 @@ class  App extends React.Component {
     this.detectedPhrase="";
     this.departureInfo="";
     this.page=0;
-    this.nextBus=[];
     this.trafic={state:false};
 
     this.state={
@@ -301,7 +300,7 @@ class  App extends React.Component {
       <div className="App">
           <TopBar arret="GARES" date={this.state.date} hour={this.state.hour} />
           
-          {this.nextBus}
+          {this.trafic.nextBus}
 
 
 
