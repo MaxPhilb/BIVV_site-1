@@ -28,6 +28,9 @@ class  App extends React.Component {
     this.stateAnswer=false;
     this.detectedPhrase="";
     this.departureInfo="";
+    this.page=0;
+    this.nextBus=[];
+    this.trafic={state:false};
 
     this.state={
       date:"",
@@ -43,9 +46,7 @@ class  App extends React.Component {
       dataFromServer:{action:""}
     };
     
-    this.fadeoutEnd=this.fadeoutEnd.bind(this);
-    
-    this.handleChange=this.handleChange.bind(this);
+     
   }
 
  
@@ -62,6 +63,7 @@ class  App extends React.Component {
     let m=ladate.getMinutes()>=10 ? ladate.getMinutes() : "0"+ladate.getMinutes();
     //let heureJ=ladate.getHours()+':'+;
     let heureJ=h+":"+m;
+
     this.setState({
       date:dateJ,
       hour:heureJ,
@@ -154,18 +156,11 @@ class  App extends React.Component {
 <Transcript phrase="Quel bus ?"/>
  */
 
-handleChange(event){
-  this.setState({textfield: event.target.value,loadResult:event.target.value});
-}
-fadeoutEnd(event){
-  console.log("fin anim");
-  event.target.style.display="none";
-}
+
 
 
 
   render(){
-    let displayInfo = "";
     let animationInfo="";
     let animationLaunch="";
     let transcript=false;
@@ -179,14 +174,16 @@ fadeoutEnd(event){
     console.log("dataFromServer");
     console.log(this.state.dataFromServer['action']);
 
+    if(this.state.dataFromServer['action']==="reset"){
+      this.page=0;
+    }
+
     if(this.state.dataFromServer['action']==="start"){
-        animationInfo="fadeout 500ms";
-        animationLaunch=" slideup 1s forwards";
+        this.page=1;
         questionsFAQ=this.state.dataFromServer['faq'];
     }
     if(this.state.dataFromServer['action']==="call"){
-      animationLaunch=""
-        transcript=true
+      this.page=2;
         
         
 
@@ -195,23 +192,19 @@ fadeoutEnd(event){
       loadResult="100";
       animationLaunch=""
         transcript=true
-        displayInfo="none";
+        
         this.stateAnswer=false;
         this.detectedPhrase=this.state.dataFromServer['phrase'];
       
     }
-    if(this.state.dataFromServer['action']==="reset"){
-      console.log("dans reset");
-      this.detectedPhrase="";
-      displayInfo="block";
-    }
+    
     
     if(this.state.dataFromServer['action']==="trajet"){
       console.log("trajet inside");
       parcours=this.state.dataFromServer['data'];
       console.log(parcours);
       transcript=true;
-      displayInfo="none";
+     
       reponse=this.state.dataFromServer['reponse'];
       this.stateAnswer=true;
     }     
@@ -229,7 +222,7 @@ fadeoutEnd(event){
         console.log("carto inside");
         carto=this.state.dataFromServer['data'];
         transcript=true;
-        displayInfo="none";
+        
         this.departureInfo=this.state.dataFromServer['departure'];
         reponse=this.state.dataFromServer['reponse'];
         this.stateAnswer=true;
@@ -240,39 +233,66 @@ fadeoutEnd(event){
         
         reponse=this.state.dataFromServer['reponse'];
         transcript=true;
-        displayInfo="none";
+        
         this.stateAnswer=true;
       }
 
-     let nextBus=[];
-     let trafic={state:false};
+     
+     
      let nbMaxDisplay=8;
-     let descTrafic=[];
+     
      if(this.state.dataFromServer['action']==="realtime"){
       let listNB=this.state.dataFromServer['data'];
       //console.log(listNB);
-      trafic=this.state.dataFromServer['infoTrafic'];
-
-      console.log(trafic);
-      if(trafic.state){
+      let infotrafic=this.state.dataFromServer['infoTrafic'];
+      let nextBus=[];
+      let descTrafic=[];
+      console.log(infotrafic);
+      if(infotrafic.state){
         nbMaxDisplay=3;
       }
-      if(trafic.listPert.length>0){
-        let tabDesc=trafic.listPert[0].description.split('\r\n');
+
+      this.trafic.state=infotrafic.state;
+
+      if(infotrafic.listPert.length>0){
+        let tabDesc=infotrafic.listPert[0].description.split('\r\n');
         tabDesc.forEach(function(desc){
           descTrafic.push(desc);
           descTrafic.push(<br />);
         })
       }
+      this.trafic.descTrafic=descTrafic;
+
+
       for(let i=0;i<nbMaxDisplay;i++)
       {
         if(i<listNB.length){
           let nb=listNB[i];
-          nextBus.push(<NextBus dir={nb.direction} colorLine={nb.colorLine} lineName={nb.lineName} colorPert={nb.colorPert} pertText={nb.pertText} colorHO1="#102F54"  HO1={nb.HO1} colorHO2="#102F54" HO2={nb.HO2} HO1PERT="" HO2PERT="" dirPert={nb.dirPert}/>);
+          this.nextBus.push(<NextBus dir={nb.direction} colorLine={nb.colorLine} lineName={nb.lineName} colorPert={nb.colorPert} pertText={nb.pertText} colorHO1="#102F54"  HO1={nb.HO1} colorHO2="#102F54" HO2={nb.HO2} HO1PERT="" HO2PERT="" dirPert={nb.dirPert}/>);
         }
 
       }
+      this.trafic.nextBus=nextBus;
+      this.trafic.title=infotrafic.listPert[0].titre.toUpperCase();
     }
+
+      if(this.page==0){
+        
+        this.detectedPhrase="";
+       
+      }
+      if(this.page==1){
+        
+        animationLaunch=" slideup 1s forwards";
+      }
+      if(this.page==2){
+        animationLaunch="";
+        transcript=true;
+      }
+      if(this.page==3){
+        
+      }
+    
      
     
     return (
@@ -281,7 +301,7 @@ fadeoutEnd(event){
       <div className="App">
           <TopBar arret="GARES" date={this.state.date} hour={this.state.hour} />
           
-          {nextBus}
+          {this.nextBus}
 
 
 
@@ -289,18 +309,20 @@ fadeoutEnd(event){
         {/*this.state.dataFromServer['action']*/}
 
 
-        {(trafic.state) &&
-          <div style={{display:displayInfo, animation:animationInfo}} onAnimationEnd={this.fadeoutEnd} >
-            <InfoWidget titre={trafic.listPert[0].titre.toUpperCase()}  description={descTrafic} /> 
+        {(this.trafic.state && this.page==0) &&
+          <div >
+            <InfoWidget titre={this.trafic.title}  description={this.trafic.descTrafic} /> 
           </div>
         }
         
         
         
         <div style={{position:"absolute",bottom:"0",width:"99%"}} >
-          <div style={{display:displayInfo, animation:animationInfo}} onAnimationEnd={this.fadeoutEnd} >
+        {(this.trafic.state && this.page==0) &&
+          <div style={{animation:animationInfo}}  >
           <AppuiBtn />
           </div>
+        }
           
           <div style={{position: "absolute",bottom: "-600px", display:"block",animation:animationLaunch}}>
             
