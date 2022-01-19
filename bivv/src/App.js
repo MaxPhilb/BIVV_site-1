@@ -267,7 +267,7 @@ class  App extends React.Component {
       {
         if(i<listNB.length){
           let nb=listNB[i];
-          this.nextBus.push(<NextBus dir={nb.direction} colorLine={nb.colorLine} lineName={nb.lineName} colorPert={nb.colorPert} pertText={nb.pertText} colorHO1="#102F54"  HO1={nb.HO1} colorHO2="#102F54" HO2={nb.HO2} HO1PERT="" HO2PERT="" dirPert={nb.dirPert}/>);
+          nextBus.push(<NextBus dir={nb.direction} colorLine={nb.colorLine} lineName={nb.lineName} colorPert={nb.colorPert} pertText={nb.pertText} colorHO1="#102F54"  HO1={nb.HO1} colorHO2="#102F54" HO2={nb.HO2} HO1PERT="" HO2PERT="" dirPert={nb.dirPert}/>);
         }
 
       }
