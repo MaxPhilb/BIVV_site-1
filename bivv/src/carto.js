@@ -168,9 +168,7 @@ class Carto extends  React.Component {
                         <img url={this.state.dest.imgURL}  alt="" />
                     }
 
-                    {
-                    __html: "<b>test html</b>"
-                    }
+                    
                 </div>
 
             </div>
