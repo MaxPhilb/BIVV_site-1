@@ -13,9 +13,10 @@ import Answer from './answer';
 
 
 const AnimIn = keyframes`${slideInUp}`;
-
+var url=window.location.hostname;
+console.log(url);
 //const IP="192.168.10.46";
-const IP="127.0.0.1";
+var IP=url;
 
 class  App extends React.Component {
 
