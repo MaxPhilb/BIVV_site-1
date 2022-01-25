@@ -98,7 +98,16 @@ class Carto extends  React.Component {
         centerCoord[1]=bounds.getCenter().lng.toFixed(6);
 
         console.log(bounds);
-        zoom = this.getBoundsZoomLevel(bounds,{height:300,width:750})
+        zoom = this.getBoundsZoomLevel(bounds,{height:300,width:750});
+
+        let adresse=[];
+        if(this.state.dest.adresse.length>0){
+            let strTemp=this.state.dest.adresse.split('\r\n');
+            strTemp.forEach(function(desc){
+              adresse.push(desc);
+              adresse.push(<br />);
+            })
+          }
 
         return(
         <div className="carto">
@@ -143,14 +152,25 @@ class Carto extends  React.Component {
                 </div>
                
                 <div className='cartoDepArretText' >
+                    <div className="cartoDepArretTop" >
                     {
-                       this.state.dest.titre
+                       this.state.dest.name
                     }
+                    </div>
                     <br />
+                    <div className="cartoDepArretBottom" >
                     {
-                       this.state.dest.adresse
+                       adresse
                     }
-                       
+                    </div>
+
+                    {
+                        <img url={this.state.dest.imgURL}  alt="" />
+                    }
+
+                    {
+                    __html: "<b>test html</b>"
+                    }
                 </div>
 
             </div>
