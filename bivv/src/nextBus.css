@@ -26,8 +26,8 @@
     position: absolute;
     font-size: 34px;
     font-weight: bold;
-    top: 10px;
-    left: 15px;
+    top: 16px;
+    left: 18px;
     text-align: center;
     width: 65px;
     
@@ -105,12 +105,12 @@
     width: 100%;
     position: relative;
     float: left;
-    
+    z-index:100;
 }
 
 .NBHTOPTEXT{
     color:#EEC63A;
-    font-size: 27px;
+    font-size: 25px;
     margin-top:8px;
     font-weight: bold;
 }
