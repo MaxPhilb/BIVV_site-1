@@ -23,30 +23,43 @@ class Carto extends  React.Component {
     constructor(props) {
       super(props);
     
-      let defibrillateur={
-          
-          lat:45.190901,
-          lon:5.713469,
-          name:"Defibrillateur: Hotel Novotel",
-          zoom:18
-        
-        }
-    
-       
-
-      
-        
         
       this.state = {
           
             dest:this.props.destination,
             dep:this.props.departure,
-            
-          
+                 
       };
-      
-      
+    }
+
+    getBoundsZoomLevel(bounds, mapDim) {
+        var WORLD_DIM = { height: 256, width: 256 };
+        var ZOOM_MAX = 21;
     
+        function latRad(lat) {
+            var sin = Math.sin(lat * Math.PI / 180);
+            var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+            return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+        }
+    
+        function zoom(mapPx, worldPx, fraction) {
+            return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+        }
+
+        console.log(bounds);
+    
+        var ne = bounds.getNorthEast();
+        var sw = bounds.getSouthWest();
+    
+        var latFraction = (latRad(ne.lat) - latRad(sw.lat)) / Math.PI;
+    
+        var lngDiff = ne.lng - sw.lng;
+        var lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
+    
+        var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
+        var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
+    
+        return Math.min(latZoom, lngZoom, ZOOM_MAX);
     }
   
    
@@ -54,7 +67,15 @@ class Carto extends  React.Component {
 
         console.log(this.state.dest);
         console.log(this.state.dep);
+        if(this.state.dest.hasOwnProperty('lat') && this.state.dest.hasOwnProperty('lon') && this.state.dest.hasOwnProperty('titre') && this.state.dest.hasOwnProperty('adresse'))
+        {
+            
+        }else
+        {
+            return (" Aucune donnée");
+        }
 
+        
         let destinationLink=""+this.state.dest.lat+","+this.state.dest.lon+"";
         let googleLink="https://www.google.com/maps/dir/?api=1&origin="+this.state.dep.name+"&destination="+destinationLink+"&travelmode=walk";
 
@@ -65,21 +86,19 @@ class Carto extends  React.Component {
 
         let lat=0;
         let long=0;
+        let zoom = 1;
         
         
-        if(latdif>0){  lat=this.state.dep.lat-latdif;
-        }
-        else{ lat=this.state.dep.lat+latdif;
-        }   
-        if(longdif>0){  long=this.state.dep.lon-longdif;
-        }
-        else{ long=this.state.dep.lon+longdif;
-        }
-        centerCoord[0]=lat.toFixed(6);
-        centerCoord[1]=long.toFixed(6);
+        let corner1 = Leaf.latLng(this.state.dep.lat,this.state.dep.lon);
+        let corner2 = Leaf.latLng(this.state.dest.lat,this.state.dest.lon);
+        let bounds = Leaf.latLngBounds(corner1,corner2); 
 
-        console.log("lat: "+lat.toFixed(6));
-        console.log("lon: "+long.toFixed(6));
+                
+        centerCoord[0]=bounds.getCenter().lat.toFixed(6);
+        centerCoord[1]=bounds.getCenter().lng.toFixed(6);
+
+        console.log(bounds);
+        zoom = this.getBoundsZoomLevel(bounds,{height:300,width:750})
 
         return(
         <div className="carto">
@@ -98,7 +117,7 @@ class Carto extends  React.Component {
                 
             </div>
             <br />
-           <MapContainer style={{marginTop:"40px"}} center={centerCoord} zoom={this.state.dest.zoom} scrollWheelZoom={false}>
+           <MapContainer style={{marginTop:"40px"}} center={centerCoord} zoom={zoom} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="http://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"

@@ -33,7 +33,7 @@ class Answer extends  React.Component {
             
                 
             {
-            this.props.carto ? <Carto depart={this.props.carto} departure={this.props.departure} destination={this.props.carto} /> : ""
+            this.props.carto ? <Carto departure={this.props.departure} destination={this.props.carto} /> : ""
             }
 
               {
