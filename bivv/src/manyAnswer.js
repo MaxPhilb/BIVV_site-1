@@ -9,10 +9,11 @@ class ManyAnswer extends  React.Component {
        
       };
       
-      
+       
     
     }
   
+    
    
     render(){
 
