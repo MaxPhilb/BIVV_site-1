@@ -28,6 +28,7 @@ class NextBus extends  React.Component {
                     </div>;
         }
         
+      
 
         return(
           <div className="NextBus">
